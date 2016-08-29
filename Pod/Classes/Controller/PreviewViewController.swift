@@ -21,10 +21,19 @@
 // SOFTWARE.
 
 import UIKit
+import Photos
 
 final class PreviewViewController : UIViewController {
     var imageView: UIImageView?
+    weak var delegate: PreviewViewControllerDelegate?
+    var indexPath: NSIndexPath?
     private var fullscreen = false
+    
+    var isSelected: Bool = false {
+        didSet {
+            updateSelectButton()
+        }
+    }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -48,6 +57,22 @@ final class PreviewViewController : UIViewController {
     
     override func loadView() {
         super.loadView()
+        
+        updateSelectButton()
+    }
+    
+    func updateSelectButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: (isSelected) ? "Deselected" : "Selected", style: .Plain, target: self, action: #selector(PreviewViewController.selectImage))
+    }
+    
+    func selectImage() {
+        if let indexPath = indexPath {
+            isSelected = !isSelected
+            
+            updateSelectButton()
+            
+            delegate?.previewViewController(self, didSelect: isSelected, indexPath: indexPath)
+        }
     }
     
     func toggleFullscreen() {
@@ -82,4 +107,8 @@ final class PreviewViewController : UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return fullscreen
     }
+}
+
+protocol PreviewViewControllerDelegate: class {
+    func previewViewController(previewViewController: PreviewViewController, didSelect isSelect: Bool, indexPath: NSIndexPath)
 }

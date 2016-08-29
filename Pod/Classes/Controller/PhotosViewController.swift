@@ -58,7 +58,9 @@ final class PhotosViewController : UICollectionViewController {
     }()
     
     private lazy var previewViewContoller: PreviewViewController? = {
-        return PreviewViewController(nibName: nil, bundle: nil)
+        let previewViewController = PreviewViewController(nibName: nil, bundle: nil)
+        previewViewController.delegate = self
+        return previewViewController
     }()
     
     required init(fetchResults: [PHFetchResult], defaultSelections: PHFetchResult? = nil, settings aSettings: BSImagePickerSettings) {
@@ -191,6 +193,9 @@ final class PhotosViewController : UICollectionViewController {
                     }
                 }
                 
+                vc.indexPath = indexPath
+                vc.isSelected = cell.selected
+                    
                 // Setup animation
                 expandAnimator.sourceImageView = cell.imageView
                 expandAnimator.destinationImageView = vc.imageView
@@ -563,5 +568,65 @@ extension PhotosViewController: PHPhotoLibraryChangeObserver {
         
         
         // TODO: Changes in albums
+    }
+}
+
+// MARK: PreviewViewControllerDelegate
+extension PhotosViewController: PreviewViewControllerDelegate {
+    
+    func previewViewController(previewViewController: PreviewViewController, didSelect isSelect: Bool, indexPath: NSIndexPath) {
+        guard let cell = collectionView?.cellForItemAtIndexPath(indexPath) as? PhotoCell, let photosDataSource = photosDataSource, let asset = photosDataSource.fetchResult.objectAtIndex(indexPath.row) as? PHAsset else {
+            return
+        }
+        
+        if isSelect {
+            cell.selected = true
+            
+            // Select asset if not already selected
+            photosDataSource.selections.append(asset)
+            
+            // Set selection number
+            if let selectionCharacter = settings.selectionCharacter {
+                cell.selectionString = String(selectionCharacter)
+            } else {
+                cell.selectionString = String(photosDataSource.selections.count)
+            }
+            
+            // Update done button
+            updateDoneButton()
+            
+            // Call selection closure
+            if let closure = selectionClosure {
+                dispatch_async(dispatch_get_global_queue(0, 0), { () -> Void in
+                    closure(asset: asset)
+                })
+            }
+            
+        } else {
+            cell.selected = false
+            
+            if let index = photosDataSource.selections.indexOf(asset) {
+                // Deselect asset
+                photosDataSource.selections.removeAtIndex(index)
+                
+                // Update done button
+                updateDoneButton()
+                
+                // Reload selected cells to update their selection number
+                if let collectionView = collectionView, let selectedIndexPaths = collectionView.indexPathsForSelectedItems() {
+                    UIView.setAnimationsEnabled(false)
+                    collectionView.reloadItemsAtIndexPaths(selectedIndexPaths)
+                    synchronizeSelectionInCollectionView(collectionView)
+                    UIView.setAnimationsEnabled(true)
+                }
+                
+                // Call deselection closure
+                if let closure = deselectionClosure {
+                    dispatch_async(dispatch_get_global_queue(0, 0), { () -> Void in
+                        closure(asset: asset)
+                    })
+                }
+            }
+        }
     }
 }
