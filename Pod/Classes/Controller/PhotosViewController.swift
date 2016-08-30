@@ -57,11 +57,16 @@ final class PhotosViewController : UICollectionViewController {
         return vc
     }()
     
-    private lazy var previewViewContoller: PreviewViewController? = {
-        let previewViewController = PreviewViewController(nibName: nil, bundle: nil)
-        previewViewController.delegate = self
-        return previewViewController
-    }()
+//    private lazy var previewsViewContoller: PreviewsViewController = {
+//        let storyboard = UIStoryboard(name: "Previews", bundle: BSImagePickerViewController.bundle)
+//        let vc = storyboard.instantiateInitialViewController() as! PreviewsViewController
+//        
+//        return vc
+//        
+//        let previewViewController = PreviewViewController(nibName: nil, bundle: nil)
+//        previewViewController.delegate = self
+//        return previewViewController
+//    }()
     
     required init(fetchResults: [PHFetchResult], defaultSelections: PHFetchResult? = nil, settings aSettings: BSImagePickerSettings) {
         albumsDataSource = AlbumTableViewDataSource(fetchResults: fetchResults)
@@ -173,7 +178,6 @@ final class PhotosViewController : UICollectionViewController {
     
     func collectionViewLongPressed(sender: UIGestureRecognizer) {
         if sender.state == .Began {
-            // Disable recognizer while we are figuring out location and pushing preview
             sender.enabled = false
             collectionView?.userInteractionEnabled = false
             
@@ -181,28 +185,29 @@ final class PhotosViewController : UICollectionViewController {
             let location = sender.locationInView(collectionView)
             let indexPath = collectionView?.indexPathForItemAtPoint(location)
             
-            if let vc = previewViewContoller, let indexPath = indexPath, let cell = collectionView?.cellForItemAtIndexPath(indexPath) as? PhotoCell, let asset = cell.asset {
+            if let indexPath = indexPath, let cell = collectionView?.cellForItemAtIndexPath(indexPath) as? PhotoCell, let asset = cell.asset {
+                let previewsViewContoller = PreviewsViewController(dataSource: self, selectedIndex: indexPath.row)
+                previewsViewContoller.dataSource = self;
+                
                 // Setup fetch options to be synchronous
                 let options = PHImageRequestOptions()
                 options.synchronous = true
                 
                 // Load image for preview
-                if let imageView = vc.imageView {
-                    PHCachingImageManager.defaultManager().requestImageForAsset(asset, targetSize:imageView.frame.size, contentMode: .AspectFit, options: options) { (result, _) in
-                        imageView.image = result
-                    }
+                PHCachingImageManager.defaultManager().requestImageForAsset(asset, targetSize:previewsViewContoller.imageView.frame.size, contentMode: .AspectFit, options: options) { (result, _) in
+                    previewsViewContoller.imageView.image = result
                 }
                 
-                vc.indexPath = indexPath
-                vc.isSelected = cell.selected
-                    
+//                previewsViewContoller.indexPath = indexPath
+//                previewsViewContoller.isSelected = cell.selected
+                
                 // Setup animation
                 expandAnimator.sourceImageView = cell.imageView
-                expandAnimator.destinationImageView = vc.imageView
-                shrinkAnimator.sourceImageView = vc.imageView
+                expandAnimator.destinationImageView = previewsViewContoller.imageView
+                shrinkAnimator.sourceImageView = previewsViewContoller.imageView
                 shrinkAnimator.destinationImageView = cell.imageView
                 
-                navigationController?.pushViewController(vc, animated: true)
+                navigationController?.pushViewController(previewsViewContoller, animated: true)
             }
             
             // Re-enable recognizer, after animation is done
@@ -571,8 +576,36 @@ extension PhotosViewController: PHPhotoLibraryChangeObserver {
     }
 }
 
-// MARK: PreviewViewControllerDelegate
-extension PhotosViewController: PreviewViewControllerDelegate {
+extension PhotosViewController: PreviewsViewControllerDataSource {
+    
+    func numberOfPagesWith(previewsViewController: PreviewsViewController) -> Int {
+        return photosDataSource!.fetchResult.count
+    }
+    
+    func previewsViewController(previewsViewController: PreviewsViewController, index: Int, imageView: UIImageView) {
+        if let asset = photosDataSource?.fetchResult.objectAtIndex(index) as? PHAsset {
+            let options = PHImageRequestOptions()
+            options.synchronous = true
+            
+            PHCachingImageManager.defaultManager().requestImageForAsset(asset, targetSize:imageView.frame.size, contentMode: .AspectFit, options: options) { (result, _) in
+                imageView.image = result
+            }
+        }
+        
+    }
+    
+    func previewsViewController(previewsViewController: PreviewsViewController, isSelectedAt index: Int) -> Bool {
+        guard let asset = photosDataSource?.fetchResult.objectAtIndex(index) as? PHAsset, let selections = photosDataSource?.selections else {
+            
+            return false
+        }
+        
+        if selections.contains(asset) {
+            return true
+        } else {
+            return false
+        }
+    }
     
     func reloadSelectedCells() {
         if let collectionView = collectionView, let selectedIndexPaths = collectionView.indexPathsForSelectedItems() {
@@ -583,23 +616,14 @@ extension PhotosViewController: PreviewViewControllerDelegate {
         }
     }
     
-    func previewViewController(previewViewController: PreviewViewController, didSelect isSelect: Bool, indexPath: NSIndexPath) {
-        guard let cell = collectionView?.cellForItemAtIndexPath(indexPath) as? PhotoCell, let photosDataSource = photosDataSource, let asset = photosDataSource.fetchResult.objectAtIndex(indexPath.row) as? PHAsset else {
+    func previewsViewController(previewsViewController: PreviewsViewController, didSelect index: Int, isSelect: Bool) {
+        guard let photosDataSource = photosDataSource, let asset = photosDataSource.fetchResult.objectAtIndex(index) as? PHAsset else {
             return
         }
         
         if isSelect {
-            cell.selected = true
-            
             // Select asset if not already selected
             photosDataSource.selections.append(asset)
-            
-            // Set selection number
-            if let selectionCharacter = settings.selectionCharacter {
-                cell.selectionString = String(selectionCharacter)
-            } else {
-                cell.selectionString = String(photosDataSource.selections.count)
-            }
             
             // Update done button
             updateDoneButton()
@@ -615,8 +639,6 @@ extension PhotosViewController: PreviewViewControllerDelegate {
             }
             
         } else {
-            cell.selected = false
-            
             if let index = photosDataSource.selections.indexOf(asset) {
                 // Deselect asset
                 photosDataSource.selections.removeAtIndex(index)

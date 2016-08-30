@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="z2Y-bT-TEr">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Previews View Controller-->
+        <scene sceneID="Br2-an-qxs">
+            <objects>
+                <viewController id="z2Y-bT-TEr" customClass="PreviewsViewController" customModule="BSImagePicker" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AA2-Od-I6b"/>
+                        <viewControllerLayoutGuide type="bottom" id="f07-u8-36o"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3aF-tb-s9C">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SXu-d4-yha">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SXu-d4-yha" firstAttribute="leading" secondItem="3aF-tb-s9C" secondAttribute="leadingMargin" constant="-20" id="LRU-hR-eAS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="SXu-d4-yha" secondAttribute="trailing" constant="-20" id="Xmu-H4-BOh"/>
+                            <constraint firstItem="SXu-d4-yha" firstAttribute="top" secondItem="3aF-tb-s9C" secondAttribute="topMargin" id="ccY-10-ZuK"/>
+                            <constraint firstItem="f07-u8-36o" firstAttribute="top" secondItem="SXu-d4-yha" secondAttribute="bottom" id="mqk-EH-wg4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="SXu-d4-yha" id="ybm-B1-AJm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qs6-Yi-Omp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="380" y="461"/>
+        </scene>
+    </scenes>
+</document>
