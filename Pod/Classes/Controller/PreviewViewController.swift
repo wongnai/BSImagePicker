@@ -62,7 +62,7 @@ final class PreviewViewController : UIViewController {
     }
     
     func updateSelectButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: (isSelected) ? "Deselected" : "Selected", style: .Plain, target: self, action: #selector(PreviewViewController.selectImage))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: (isSelected) ? "Deselect" : "Select", style: .Plain, target: self, action: #selector(PreviewViewController.selectImage))
     }
     
     func selectImage() {

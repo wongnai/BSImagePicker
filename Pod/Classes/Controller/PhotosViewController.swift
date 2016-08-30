@@ -574,6 +574,15 @@ extension PhotosViewController: PHPhotoLibraryChangeObserver {
 // MARK: PreviewViewControllerDelegate
 extension PhotosViewController: PreviewViewControllerDelegate {
     
+    func reloadSelectedCells() {
+        if let collectionView = collectionView, let selectedIndexPaths = collectionView.indexPathsForSelectedItems() {
+            UIView.setAnimationsEnabled(false)
+            collectionView.reloadItemsAtIndexPaths(selectedIndexPaths)
+            synchronizeSelectionInCollectionView(collectionView)
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
     func previewViewController(previewViewController: PreviewViewController, didSelect isSelect: Bool, indexPath: NSIndexPath) {
         guard let cell = collectionView?.cellForItemAtIndexPath(indexPath) as? PhotoCell, let photosDataSource = photosDataSource, let asset = photosDataSource.fetchResult.objectAtIndex(indexPath.row) as? PHAsset else {
             return
@@ -595,6 +604,9 @@ extension PhotosViewController: PreviewViewControllerDelegate {
             // Update done button
             updateDoneButton()
             
+            // Reload Cell
+            reloadSelectedCells()
+            
             // Call selection closure
             if let closure = selectionClosure {
                 dispatch_async(dispatch_get_global_queue(0, 0), { () -> Void in
@@ -612,13 +624,8 @@ extension PhotosViewController: PreviewViewControllerDelegate {
                 // Update done button
                 updateDoneButton()
                 
-                // Reload selected cells to update their selection number
-                if let collectionView = collectionView, let selectedIndexPaths = collectionView.indexPathsForSelectedItems() {
-                    UIView.setAnimationsEnabled(false)
-                    collectionView.reloadItemsAtIndexPaths(selectedIndexPaths)
-                    synchronizeSelectionInCollectionView(collectionView)
-                    UIView.setAnimationsEnabled(true)
-                }
+                // Reload Cell
+                reloadSelectedCells()
                 
                 // Call deselection closure
                 if let closure = deselectionClosure {
