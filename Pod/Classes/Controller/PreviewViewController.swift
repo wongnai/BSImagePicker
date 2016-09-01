@@ -23,20 +23,34 @@
 import UIKit
 import Photos
 
-final class PreviewViewController : UIViewController {
+final class PreviewViewController: UIViewController {
+    let scrollView = UIScrollView()
     let imageView = UIImageView()
     var index: Int = 0
         
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
 
+        scrollView.frame = view.bounds
+        scrollView.delegate = self
+        scrollView.maximumZoomScale = 3
+        scrollView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        view.addSubview(scrollView)
+        
         imageView.frame = view.bounds
         imageView.contentMode = .ScaleAspectFit
         imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        view.addSubview(imageView)
+        scrollView.addSubview(imageView)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+extension PreviewViewController: UIScrollViewDelegate {
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
 }
