@@ -193,6 +193,18 @@ extension BSImagePickerViewController: BSImagePickerSettings {
     /**
      See BSImagePicketSettings for documentation
      */
+    public var selectionImage: UIImage? {
+        get {
+            return settings.selectionImage
+        }
+        set {
+            settings.selectionImage = newValue
+        }
+    }
+    
+    /**
+     See BSImagePicketSettings for documentation
+     */
     public var selectionTextAttributes: [String: AnyObject] {
         get {
             return settings.selectionTextAttributes

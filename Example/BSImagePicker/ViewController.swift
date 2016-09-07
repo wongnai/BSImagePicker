@@ -51,9 +51,9 @@ class ViewController: UIViewController {
         vc.cancelButton.tintColor = UIColor.redColor()
         vc.doneButton.tintColor = UIColor.purpleColor()
         vc.selectionCharacter = "✓"
-        vc.selectionFillColor = UIColor.grayColor()
-        vc.selectionStrokeColor = UIColor.yellowColor()
-        vc.selectionShadowColor = UIColor.redColor()
+        vc.selectionFillColor = UIColor.blueColor()
+        vc.selectionStrokeColor = UIColor.blueColor()
+        vc.selectionShadowColor = UIColor.blueColor()
         vc.selectionTextAttributes[NSForegroundColorAttributeName] = UIColor.lightGrayColor()
         vc.cellsPerRow = {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
             switch (verticalSize, horizontalSize) {

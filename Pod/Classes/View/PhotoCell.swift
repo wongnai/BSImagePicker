@@ -29,6 +29,7 @@ The photo cell.
 final class PhotoCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var selectionOverlayView: UIView!
+    @IBOutlet weak var selectionOverlayImage: UIImageView!
     @IBOutlet weak var selectionView: SelectionView!
     
     weak var asset: PHAsset?
@@ -38,6 +39,7 @@ final class PhotoCell: UICollectionViewCell {
         }
         set {
             selectionView.settings = newValue
+            selectionOverlayImage.image = newValue.selectionImage
         }
     }
     
@@ -82,9 +84,11 @@ final class PhotoCell: UICollectionViewCell {
     private func updateAlpha(selected: Bool) {
         if selected == true {
             self.selectionView.alpha = 1.0
+            selectionOverlayImage.alpha = 1.0
             self.selectionOverlayView.alpha = 0.3
         } else {
             self.selectionView.alpha = 0.0
+            selectionOverlayImage.alpha = 0.0
             self.selectionOverlayView.alpha = 0.0
         }
     }

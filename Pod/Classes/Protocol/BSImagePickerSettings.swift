@@ -57,6 +57,11 @@ public protocol BSImagePickerSettings {
     var selectionTextAttributes: [String: AnyObject] { get set }
     
     /**
+     image
+     */
+    var selectionImage: UIImage? { get set }
+    
+    /**
     Return how many cells per row you want to show for the given size classes
     */
     var cellsPerRow: (verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int { get set }
