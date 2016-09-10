@@ -17,50 +17,28 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eql-VY-cc4">
                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                     </imageView>
-                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vrZ-cc-3iN">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zlQ-MR-Sed">
                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="select-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3wq-e2-6xy">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                    </imageView>
-                    <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZWL-2w-R4Y" customClass="SelectionView" customModule="BSImagePicker">
-                        <rect key="frame" x="67" y="67" width="25" height="25"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="25" id="KmA-hg-Sja"/>
-                            <constraint firstAttribute="width" constant="25" id="Sed-si-Khu"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="vrZ-cc-3iN" firstAttribute="leading" secondItem="Wnb-Ja-sAy" secondAttribute="leading" id="1k6-ja-XtL"/>
+                <constraint firstAttribute="trailing" secondItem="zlQ-MR-Sed" secondAttribute="trailing" id="2UK-Vt-4gi"/>
                 <constraint firstItem="eql-VY-cc4" firstAttribute="leading" secondItem="Wnb-Ja-sAy" secondAttribute="leading" id="6Yj-56-Ajf"/>
-                <constraint firstAttribute="bottom" secondItem="ZWL-2w-R4Y" secondAttribute="bottom" constant="8" id="9kI-gE-Fuo"/>
-                <constraint firstAttribute="trailing" secondItem="vrZ-cc-3iN" secondAttribute="trailing" id="Cpg-dZ-0Lg"/>
-                <constraint firstAttribute="trailing" secondItem="3wq-e2-6xy" secondAttribute="trailing" id="D9p-OX-Tbu"/>
-                <constraint firstItem="3wq-e2-6xy" firstAttribute="leading" secondItem="Wnb-Ja-sAy" secondAttribute="leading" id="JVJ-GS-0Jf"/>
-                <constraint firstAttribute="trailing" secondItem="ZWL-2w-R4Y" secondAttribute="trailing" constant="8" id="Mxn-IB-9vl"/>
-                <constraint firstAttribute="bottom" secondItem="vrZ-cc-3iN" secondAttribute="bottom" id="Uh1-N4-v8c"/>
-                <constraint firstAttribute="bottom" secondItem="3wq-e2-6xy" secondAttribute="bottom" id="bgv-dt-I4Q"/>
+                <constraint firstItem="zlQ-MR-Sed" firstAttribute="leading" secondItem="Wnb-Ja-sAy" secondAttribute="leading" id="Ro8-Yz-YkR"/>
+                <constraint firstAttribute="bottom" secondItem="zlQ-MR-Sed" secondAttribute="bottom" id="bX1-ZA-hIp"/>
                 <constraint firstItem="eql-VY-cc4" firstAttribute="top" secondItem="Wnb-Ja-sAy" secondAttribute="top" id="bsa-1y-CS3"/>
                 <constraint firstAttribute="trailing" secondItem="eql-VY-cc4" secondAttribute="trailing" id="gn3-z2-xcM"/>
                 <constraint firstAttribute="bottom" secondItem="eql-VY-cc4" secondAttribute="bottom" id="lRC-Wc-2F2"/>
-                <constraint firstItem="vrZ-cc-3iN" firstAttribute="top" secondItem="Wnb-Ja-sAy" secondAttribute="top" id="rDa-oL-Q0g"/>
-                <constraint firstItem="3wq-e2-6xy" firstAttribute="top" secondItem="Wnb-Ja-sAy" secondAttribute="top" id="uMR-KU-ynu"/>
+                <constraint firstItem="zlQ-MR-Sed" firstAttribute="top" secondItem="Wnb-Ja-sAy" secondAttribute="top" id="uDN-Mr-C16"/>
             </constraints>
             <connections>
                 <outlet property="imageView" destination="eql-VY-cc4" id="zoV-fy-Rn2"/>
-                <outlet property="selectionOverlayImage" destination="3wq-e2-6xy" id="f1A-dd-xx8"/>
-                <outlet property="selectionOverlayView" destination="vrZ-cc-3iN" id="nJv-4W-hIL"/>
-                <outlet property="selectionView" destination="ZWL-2w-R4Y" id="hKH-1U-TY9"/>
+                <outlet property="selectionOverlayView" destination="eql-VY-cc4" id="26i-1F-LuQ"/>
             </connections>
             <point key="canvasLocation" x="174" y="-76"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="select-icon.png" width="106" height="106"/>
-    </resources>
 </document>

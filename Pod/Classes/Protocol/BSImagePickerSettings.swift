@@ -32,36 +32,6 @@ public protocol BSImagePickerSettings {
     var maxNumberOfSelections: Int { get set }
     
     /**
-    Character to use for selection. If nil, selection number will be used
-    */
-    var selectionCharacter: Character? { get set }
-    
-    /**
-    Inner circle color
-    */
-    var selectionFillColor: UIColor { get set }
-    
-    /**
-    Outer circle color
-    */
-    var selectionStrokeColor: UIColor { get set }
-    
-    /**
-    Shadow color
-    */
-    var selectionShadowColor: UIColor { get set }
-    
-    /**
-    Attributes for text inside circle. Color, font, etc
-    */
-    var selectionTextAttributes: [String: AnyObject] { get set }
-    
-    /**
-     image
-     */
-    var selectionImage: UIImage? { get set }
-    
-    /**
     Return how many cells per row you want to show for the given size classes
     */
     var cellsPerRow: (verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int { get set }

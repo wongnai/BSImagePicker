@@ -30,14 +30,18 @@ class ViewController: UIViewController {
         let vc = BSImagePickerViewController()
         vc.maxNumberOfSelections = 6
         
-        bs_presentImagePickerController(vc, animated: true,
-            select: { (asset: PHAsset) -> Void in
-                print("Selected: \(asset)")
-            }, deselect: { (asset: PHAsset) -> Void in
+        bs_presentImagePickerController(vc, animated: true, select: { (asset) in
+            print("Selected: \(asset)")
+            }, didSelect: { (sequenceNumber, size) -> UIView? in
+                let view = UIView(frame: CGRectMake(0, 0, size.width, size.height))
+                view.backgroundColor = UIColor.blueColor()
+                view.alpha = 0.3
+                return view
+            }, deselect: { (asset) in
                 print("Deselected: \(asset)")
-            }, cancel: { (assets: [PHAsset]) -> Void in
+            }, cancel: { (assets) in
                 print("Cancel: \(assets)")
-            }, finish: { (assets: [PHAsset]) -> Void in
+            }, finish: { (assets) in
                 print("Finish: \(assets)")
             }, completion: nil)
     }
@@ -46,15 +50,9 @@ class ViewController: UIViewController {
         let vc = BSImagePickerViewController()
         vc.maxNumberOfSelections = 6
         vc.takePhotoIcon = UIImage(named: "chat")
-        
         vc.albumButton.tintColor = UIColor.greenColor()
         vc.cancelButton.tintColor = UIColor.redColor()
         vc.doneButton.tintColor = UIColor.purpleColor()
-        vc.selectionCharacter = "✓"
-        vc.selectionFillColor = UIColor.blueColor()
-        vc.selectionStrokeColor = UIColor.blueColor()
-        vc.selectionShadowColor = UIColor.blueColor()
-        vc.selectionTextAttributes[NSForegroundColorAttributeName] = UIColor.lightGrayColor()
         vc.cellsPerRow = {(verticalSize: UIUserInterfaceSizeClass, horizontalSize: UIUserInterfaceSizeClass) -> Int in
             switch (verticalSize, horizontalSize) {
             case (.Compact, .Regular): // iPhone5-6 portrait
@@ -68,14 +66,18 @@ class ViewController: UIViewController {
             }
         }
         
-        bs_presentImagePickerController(vc, animated: true,
-            select: { (asset: PHAsset) -> Void in
-                print("Selected: \(asset)")
-            }, deselect: { (asset: PHAsset) -> Void in
+        bs_presentImagePickerController(vc, animated: true, select: { (asset) in
+            print("Selected: \(asset)")
+            }, didSelect: { (sequenceNumber, size) -> UIView? in
+                let view = UIView(frame: CGRectMake(0, 0, size.width, size.height))
+                view.backgroundColor = UIColor.blueColor()
+                view.alpha = 0.3
+                return view
+            }, deselect: { (asset) in
                 print("Deselected: \(asset)")
-            }, cancel: { (assets: [PHAsset]) -> Void in
+            }, cancel: { (assets) in
                 print("Cancel: \(assets)")
-            }, finish: { (assets: [PHAsset]) -> Void in
+            }, finish: { (assets) in
                 print("Finish: \(assets)")
             }, completion: nil)
     }
@@ -95,17 +97,20 @@ class ViewController: UIViewController {
         let vc = BSImagePickerViewController()
         vc.defaultSelections = evenAssets
       
-        bs_presentImagePickerController(vc, animated: true,
-          select: { (asset: PHAsset) -> Void in
+        bs_presentImagePickerController(vc, animated: true, select: { (asset) in
             print("Selected: \(asset)")
-          }, deselect: { (asset: PHAsset) -> Void in
-            print("Deselected: \(asset)")
-          }, cancel: { (assets: [PHAsset]) -> Void in
-            print("Cancel: \(assets)")
-          }, finish: { (assets: [PHAsset]) -> Void in
-            print("Finish: \(assets)")
-          }, completion: nil)
-      
+            }, didSelect: { (sequenceNumber, size) -> UIView? in
+                let view = UIView(frame: CGRectMake(0, 0, size.width, size.height))
+                view.backgroundColor = UIColor.blueColor()
+                view.alpha = 0.3
+                return view
+            }, deselect: { (asset) in
+                print("Deselected: \(asset)")
+            }, cancel: { (assets) in
+                print("Cancel: \(assets)")
+            }, finish: { (assets) in
+                print("Finish: \(assets)")
+            }, completion: nil)
     }
 }
 

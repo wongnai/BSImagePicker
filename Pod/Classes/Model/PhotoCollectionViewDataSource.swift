@@ -30,16 +30,16 @@ final class PhotoCollectionViewDataSource : NSObject, UICollectionViewDataSource
     var selections = [PHAsset]()
     var fetchResult: PHFetchResult
     
+    weak var dataSource: PhotoCollectionViewDataSourceDataSource?
+    
     private let photoCellIdentifier = "photoCellIdentifier"
     private let photosManager = PHCachingImageManager.defaultManager()
     private let imageContentMode: PHImageContentMode = .AspectFill
     
-    let settings: BSImagePickerSettings?
     var imageSize: CGSize = CGSizeZero
     
-  init(fetchResult: PHFetchResult, selections: PHFetchResult? = nil, settings: BSImagePickerSettings?) {
+  init(fetchResult: PHFetchResult, selections: PHFetchResult? = nil) {
         self.fetchResult = fetchResult
-        self.settings = settings
         if let selections = selections {
             var selectionsArray = [PHAsset]()
             selections.enumerateObjectsUsingBlock { (asset, idx, stop) -> Void in
@@ -64,9 +64,7 @@ final class PhotoCollectionViewDataSource : NSObject, UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         UIView.setAnimationsEnabled(false)
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellIdentifier, forIndexPath: indexPath) as! PhotoCell
-        if let settings = settings {
-            cell.settings = settings
-        }
+        cell.dataSource = self
         
         // Cancel any pending image requests
         if cell.tag != 0 {
@@ -83,11 +81,7 @@ final class PhotoCollectionViewDataSource : NSObject, UICollectionViewDataSource
             
             // Set selection number
             if let asset = fetchResult[indexPath.row] as? PHAsset, let index = selections.indexOf(asset) {
-                if let character = settings?.selectionCharacter {
-                    cell.selectionString = String(character)
-                } else {
-                    cell.selectionString = String(index+1)
-                }
+                cell.selectionSeq = index + 1
                 
                 cell.selected = true
             } else {
@@ -103,4 +97,15 @@ final class PhotoCollectionViewDataSource : NSObject, UICollectionViewDataSource
     func registerCellIdentifiersForCollectionView(collectionView: UICollectionView?) {
         collectionView?.registerNib(UINib(nibName: "PhotoCell", bundle: BSImagePickerViewController.bundle), forCellWithReuseIdentifier: photoCellIdentifier)
     }
+}
+
+extension PhotoCollectionViewDataSource: PhotoCellDataSource {
+    
+    func photoCell(photoCell: PhotoCell, overlayViewForSelectedPhoto sequenceNumber: Int, size: CGSize) -> UIView? {
+        return dataSource?.photoCollectionViewDataSource(self, overlayViewForSelectedPhoto: sequenceNumber, size: size)
+    }
+}
+
+protocol PhotoCollectionViewDataSourceDataSource: class {
+    func photoCollectionViewDataSource(photoCollectionViewDataSource: PhotoCollectionViewDataSource, overlayViewForSelectedPhoto sequenceNumber: Int, size: CGSize) -> UIView?
 }

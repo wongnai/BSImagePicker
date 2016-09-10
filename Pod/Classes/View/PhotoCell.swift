@@ -28,28 +28,15 @@ The photo cell.
 */
 final class PhotoCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var selectionOverlayView: UIView!
-    @IBOutlet weak var selectionOverlayImage: UIImageView!
-    @IBOutlet weak var selectionView: SelectionView!
+    @IBOutlet weak var selectionOverlayView: UIImageView!
+    
+    weak var dataSource: PhotoCellDataSource?
     
     weak var asset: PHAsset?
-    var settings: BSImagePickerSettings {
-        get {
-            return selectionView.settings
-        }
-        set {
-            selectionView.settings = newValue
-            selectionOverlayImage.image = newValue.selectionImage
-        }
-    }
     
-    var selectionString: String {
-        get {
-            return selectionView.selectionString
-        }
-        
-        set {
-            selectionView.selectionString = newValue
+    var selectionSeq: Int? {
+        didSet {
+            updateUI(selected)
         }
     }
     
@@ -65,7 +52,7 @@ final class PhotoCell: UICollectionViewCell {
             if UIView.areAnimationsEnabled() && hasChanged {
                 UIView.animateWithDuration(NSTimeInterval(0.1), animations: { () -> Void in
                     // Set alpha for views
-                    self.updateAlpha(newValue)
+                    self.updateUI(newValue)
                     
                     // Scale all views down a little
                     self.transform = CGAffineTransformMakeScale(0.95, 0.95)
@@ -76,20 +63,32 @@ final class PhotoCell: UICollectionViewCell {
                             }, completion: nil)
                 }
             } else {
-                updateAlpha(newValue)
+                updateUI(newValue)
             }
         }
     }
     
-    private func updateAlpha(selected: Bool) {
+    private func updateUI(selected: Bool) {
         if selected == true {
-            self.selectionView.alpha = 1.0
-            selectionOverlayImage.alpha = 1.0
-            self.selectionOverlayView.alpha = 0.3
+            guard let selectionSeq = selectionSeq, let overlayView = dataSource?.photoCell(self, overlayViewForSelectedPhoto: selectionSeq, size: self.bounds.size) else {
+                return
+            }
+            
+            removeOverlaySubviews()
+            selectionOverlayView.addSubview(overlayView)
         } else {
-            self.selectionView.alpha = 0.0
-            selectionOverlayImage.alpha = 0.0
-            self.selectionOverlayView.alpha = 0.0
+            removeOverlaySubviews()
+        }
+    }
+    
+    private func removeOverlaySubviews() {
+        for view in selectionOverlayView.subviews {
+            view.removeFromSuperview()
         }
     }
 }
+
+protocol PhotoCellDataSource: class {
+    func photoCell(photoCell: PhotoCell, overlayViewForSelectedPhoto sequenceNumber: Int, size: CGSize) -> UIView?
+}
+

@@ -26,6 +26,7 @@ import BSGridCollectionViewLayout
 
 final class PhotosViewController : UICollectionViewController {    
     var selectionClosure: ((asset: PHAsset) -> Void)?
+    var showSelectionViewClosure: ((sequenceNumber: Int, size: CGSize) -> UIView?)?
     var deselectionClosure: ((asset: PHAsset) -> Void)?
     var cancelClosure: ((assets: [PHAsset]) -> Void)?
     var finishClosure: ((assets: [PHAsset]) -> Void)?
@@ -56,17 +57,6 @@ final class PhotosViewController : UICollectionViewController {
         
         return vc
     }()
-    
-//    private lazy var previewsViewContoller: PreviewsViewController = {
-//        let storyboard = UIStoryboard(name: "Previews", bundle: BSImagePickerViewController.bundle)
-//        let vc = storyboard.instantiateInitialViewController() as! PreviewsViewController
-//        
-//        return vc
-//        
-//        let previewViewController = PreviewViewController(nibName: nil, bundle: nil)
-//        previewViewController.delegate = self
-//        return previewViewController
-//    }()
     
     required init(fetchResults: [PHFetchResult], defaultSelections: PHFetchResult? = nil, settings aSettings: BSImagePickerSettings) {
         albumsDataSource = AlbumTableViewDataSource(fetchResults: fetchResults)
@@ -198,9 +188,6 @@ final class PhotosViewController : UICollectionViewController {
                     previewsViewContoller.imageView.image = result
                 }
                 
-//                previewsViewContoller.indexPath = indexPath
-//                previewsViewContoller.isSelected = cell.selected
-                
                 // Setup animation
                 expandAnimator.sourceImageView = cell.imageView
                 expandAnimator.destinationImageView = previewsViewContoller.imageView
@@ -319,7 +306,8 @@ final class PhotosViewController : UICollectionViewController {
     }
     
     func initializePhotosDataSourceWithFetchResult(fetchResult: PHFetchResult, selections: PHFetchResult? = nil) {
-        let newDataSource = PhotoCollectionViewDataSource(fetchResult: fetchResult, selections: selections, settings: settings)
+        let newDataSource = PhotoCollectionViewDataSource(fetchResult: fetchResult, selections: selections)
+        newDataSource.dataSource = self
         
         // Transfer image size
         // TODO: Move image size to settings
@@ -374,11 +362,7 @@ extension PhotosViewController {
         photosDataSource.selections.append(asset)
         
         // Set selection number
-        if let selectionCharacter = settings.selectionCharacter {
-            cell.selectionString = String(selectionCharacter)
-        } else {
-            cell.selectionString = String(photosDataSource.selections.count)
-        }
+        cell.selectionSeq = photosDataSource.selections.count
         
         // Update done button
         updateDoneButton()
@@ -657,5 +641,16 @@ extension PhotosViewController: PreviewsViewControllerDataSource {
                 }
             }
         }
+    }
+}
+
+extension PhotosViewController: PhotoCollectionViewDataSourceDataSource {
+    
+    func photoCollectionViewDataSource(photoCollectionViewDataSource: PhotoCollectionViewDataSource, overlayViewForSelectedPhoto sequenceNumber: Int, size: CGSize) -> UIView? {
+        guard let closure = showSelectionViewClosure else {
+            return nil
+        }
+        
+        return closure(sequenceNumber: sequenceNumber, size: size)
     }
 }
