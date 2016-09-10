@@ -70,13 +70,13 @@ final class PhotoCell: UICollectionViewCell {
     
     private func updateUI(selected: Bool) {
         if selected == true {
-            dispatch_async(dispatch_get_main_queue(), {
-                guard let selectionSeq = selectionSeq, let overlayView = dataSource?.photoCell(self, overlayViewForSelectedPhoto: selectionSeq, size: self.bounds.size) else {
+            dispatch_async(dispatch_get_main_queue(), { [weak self] in
+                guard let selectionSeq = self?.selectionSeq, let overlayView = self?.dataSource?.photoCell(self!, overlayViewForSelectedPhoto: selectionSeq, size: self!.bounds.size) else {
                     return
                 }
                 
-                removeOverlaySubviews()
-                selectionOverlayView.addSubview(overlayView)
+                self?.removeOverlaySubviews()
+                self?.selectionOverlayView.addSubview(overlayView)
             })
         } else {
             removeOverlaySubviews()
