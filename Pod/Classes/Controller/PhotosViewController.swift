@@ -83,6 +83,7 @@ final class PhotosViewController : UICollectionViewController {
         // Setup collection view
         collectionView?.backgroundColor = UIColor.whiteColor()
         collectionView?.allowsMultipleSelection = true
+        collectionView?.contentInset = UIEdgeInsetsMake(1, 0, 0, 0)
         
         // Set an empty title to get < back button
         title = " "
