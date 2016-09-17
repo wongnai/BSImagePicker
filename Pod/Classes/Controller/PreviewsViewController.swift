@@ -9,9 +9,12 @@
 import UIKit
 
 class PreviewsViewController: UIViewController {
-    var imageView = UIImageView()
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var selectButton: UIButton!
+    @IBOutlet weak var containerView: UIView!
     
     weak var dataSource: PreviewsViewControllerDataSource?
+    weak var delegate: PreviewsViewControllerDelegate?
     var selectedIndex: Int = 0
     var isSelected = false
     
@@ -22,31 +25,8 @@ class PreviewsViewController: UIViewController {
         return pageController
     }()
     
-    convenience init(dataSource: PreviewsViewControllerDataSource, selectedIndex: Int) {
-        self.init(nibName: nil, bundle: nil)
-        
-        self.dataSource = dataSource
-        self.selectedIndex = selectedIndex
-        
-        pageController.view.frame = view.bounds
-        pageController.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        view.addSubview(pageController.view)
-        pageController.setViewControllers([createPreviewViewController(selectedIndex)],
-                                          direction: .Forward,
-                                          animated: true,
-                                          completion: nil)
-        
-        pageController.view.hidden = true
-        updateSelectButton(selectedIndex)
-    }
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
-        imageView.frame = view.bounds
-        imageView.contentMode = .ScaleAspectFit
-        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        view.addSubview(imageView)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,24 +35,36 @@ class PreviewsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        pageController.view.frame = containerView.bounds
+        pageController.view.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        containerView.addSubview(pageController.view)
+        pageController.setViewControllers([createPreviewViewController(selectedIndex)],
+                                          direction: .Forward,
+                                          animated: true,
+                                          completion: nil)
+        
+        updateSelectButton(selectedIndex)
+        
+        closeButton.setImage(UIImage(named: "photo-full-screen-close-button", inBundle: BSImagePickerViewController.bundle, compatibleWithTraitCollection: nil), forState: .Normal)
+        closeButton.addTarget(self, action: #selector(clese(_:)), forControlEvents: .TouchUpInside)
+        selectButton.setImage(UIImage(named: "check-box-inactive", inBundle: BSImagePickerViewController.bundle, compatibleWithTraitCollection: nil), forState: .Normal)
+        selectButton.setImage(UIImage(named: "check-box-active", inBundle: BSImagePickerViewController.bundle, compatibleWithTraitCollection: nil), forState: .Selected)
+        selectButton.addTarget(self, action: #selector(selectImage(_:)), forControlEvents: .TouchUpInside)
+    }
+    
+    func clese(sender: UIButton) {
+        delegate?.dismiss(self)
     }
     
     func updateSelectButton(index: Int) {
         let isSelect = dataSource?.previewsViewController(self, isSelectedAt: index)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: (isSelect == true) ? "Deselect" : "Select", style: .Plain, target: self, action: #selector(PreviewsViewController.selectImage))
-        isSelected = (isSelect == true)
+        selectButton.selected = isSelect!
     }
     
-    func selectImage() {
+    func selectImage(sender: UIButton) {
         dataSource?.previewsViewController(self, didSelect: selectedIndex, isSelect: !isSelected)
         updateSelectButton(selectedIndex)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        imageView.hidden = true
-        pageController.view.hidden = false
     }
     
     func createPreviewViewController(index: Int) -> PreviewViewController {
@@ -141,4 +133,8 @@ protocol PreviewsViewControllerDataSource: class {
     func previewsViewController(previewsViewController: PreviewsViewController, index: Int, imageView: UIImageView)
     func previewsViewController(previewsViewController: PreviewsViewController, isSelectedAt index: Int) -> Bool
     func previewsViewController(previewsViewController: PreviewsViewController, didSelect index: Int, isSelect: Bool)
+}
+
+protocol PreviewsViewControllerDelegate: class {
+    func dismiss(previewsViewController: PreviewsViewController)
 }

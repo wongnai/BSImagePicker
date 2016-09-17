@@ -35,9 +35,6 @@ final class PhotosViewController : UICollectionViewController {
     var cancelBarButton: UIBarButtonItem?
     var albumTitleView: AlbumTitleView?
     
-    let expandAnimator = ZoomAnimator()
-    let shrinkAnimator = ZoomAnimator()
-    
     private var photosDataSource: PhotoCollectionViewDataSource?
     private var albumsDataSource: AlbumTableViewDataSource
     private let cameraDataSource: CameraCollectionViewDataSource
@@ -169,40 +166,20 @@ final class PhotosViewController : UICollectionViewController {
     
     func collectionViewLongPressed(sender: UIGestureRecognizer) {
         if sender.state == .Began {
-            sender.enabled = false
-            collectionView?.userInteractionEnabled = false
-            
             // Calculate which index path long press came from
             let location = sender.locationInView(collectionView)
             let indexPath = collectionView?.indexPathForItemAtPoint(location)
             
             if let indexPath = indexPath, let cell = collectionView?.cellForItemAtIndexPath(indexPath) as? PhotoCell, let asset = cell.asset {
-                let previewsViewContoller = PreviewsViewController(dataSource: self, selectedIndex: indexPath.row)
-                previewsViewContoller.dataSource = self;
+                let storyboard = UIStoryboard(name: "Previews", bundle: BSImagePickerViewController.bundle)
+                let previewsViewContoller = storyboard.instantiateInitialViewController() as! PreviewsViewController
+                previewsViewContoller.dataSource = self
+                previewsViewContoller.delegate = self
+                previewsViewContoller.selectedIndex = indexPath.row
                 
-                // Setup fetch options to be synchronous
-                let options = PHImageRequestOptions()
-                options.synchronous = true
-                
-                // Load image for preview
-                PHCachingImageManager.defaultManager().requestImageForAsset(asset, targetSize:previewsViewContoller.imageView.frame.size, contentMode: .AspectFit, options: options) { (result, _) in
-                    previewsViewContoller.imageView.image = result
-                }
-                
-                // Setup animation
-                expandAnimator.sourceImageView = cell.imageView
-                expandAnimator.destinationImageView = previewsViewContoller.imageView
-                shrinkAnimator.sourceImageView = previewsViewContoller.imageView
-                shrinkAnimator.destinationImageView = cell.imageView
-                
-                navigationController?.pushViewController(previewsViewContoller, animated: true)
+                previewsViewContoller.modalTransitionStyle = .CrossDissolve
+                presentViewController(previewsViewContoller, animated: true, completion: nil)
             }
-            
-            // Re-enable recognizer, after animation is done
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(expandAnimator.transitionDuration(nil) * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                sender.enabled = true
-                self.collectionView?.userInteractionEnabled = true
-            })
         }
     }
     
@@ -424,13 +401,6 @@ extension PhotosViewController: UIPopoverPresentationControllerDelegate {
 }
 // MARK: UINavigationControllerDelegate
 extension PhotosViewController: UINavigationControllerDelegate {
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if operation == .Push {
-            return expandAnimator
-        } else {
-            return shrinkAnimator
-        }
-    }
 }
 
 // MARK: UITableViewDelegate
@@ -561,8 +531,8 @@ extension PhotosViewController: PHPhotoLibraryChangeObserver {
     }
 }
 
+// MARK: PreviewsViewControllerDataSource
 extension PhotosViewController: PreviewsViewControllerDataSource {
-    
     func numberOfPagesWith(previewsViewController: PreviewsViewController) -> Int {
         return photosDataSource!.fetchResult.count
     }
@@ -645,8 +615,18 @@ extension PhotosViewController: PreviewsViewControllerDataSource {
     }
 }
 
-extension PhotosViewController: PhotoCollectionViewDataSourceDataSource {
+// MARK: PreviewsViewControllerDelegate
+extension PhotosViewController: PreviewsViewControllerDelegate {
     
+    func dismiss(previewsViewController: PreviewsViewController) {
+        reloadSelectedCells()
+        
+        previewsViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+// MARK: PhotoCollectionViewDataSourceDataSource
+extension PhotosViewController: PhotoCollectionViewDataSourceDataSource {
     func photoCollectionViewDataSource(photoCollectionViewDataSource: PhotoCollectionViewDataSource, overlayViewForSelectedPhoto sequenceNumber: Int, size: CGSize) -> UIView? {
         guard let closure = showSelectionViewClosure else {
             return nil

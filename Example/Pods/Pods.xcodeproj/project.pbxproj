@@ -52,10 +52,18 @@
 		CF5FAD1C2EE24FB2C50CC91A8DBE37CF /* UIViewController+BSImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BF64BB2701C973ADEBB6CE26E0474E /* UIViewController+BSImagePicker.swift */; };
 		D130664E5AB3AE440900439850877B31 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFECF79F4DFE36CB6947B757B20C4020 /* Settings.swift */; };
 		D2C51CD71E1F27983032A23C1077A600 /* UIImageViewModeScaleAspect.h in Headers */ = {isa = PBXBuildFile; fileRef = 99D4CA5EA3AE683ACD07843A8A314751 /* UIImageViewModeScaleAspect.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DF4D0829FCDAB6E62444804C8ED90421 /* ZoomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54F7BC8A876B901C8A4B2EE417AE1E32 /* ZoomAnimator.swift */; };
 		E6CB97E4D03638811A9B63F85DF18401 /* add_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A601F3325C436129BFE859A173334DE2 /* add_photo@2x.png */; };
 		EB841560A42ED462A6E4F0F9BC21DAFF /* add_photo.png in Resources */ = {isa = PBXBuildFile; fileRef = ACE7CD88974D93F4DDE6117FAB5FFC51 /* add_photo.png */; };
 		EFE98DF46B15DDE171B61A3F52D70D8A /* BSGridCollectionViewLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C854FCBD47E458EDF7EDA4C34FA28C5D /* BSGridCollectionViewLayout.framework */; };
+		F27DA1491D8D040E008AD6DC /* photo-full-screen-close-button.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA1461D8D040E008AD6DC /* photo-full-screen-close-button.png */; };
+		F27DA14A1D8D040E008AD6DC /* photo-full-screen-close-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA1471D8D040E008AD6DC /* photo-full-screen-close-button@2x.png */; };
+		F27DA14B1D8D040E008AD6DC /* photo-full-screen-close-button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA1481D8D040E008AD6DC /* photo-full-screen-close-button@3x.png */; };
+		F27DA1521D8D0877008AD6DC /* check-box-active.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA14C1D8D0877008AD6DC /* check-box-active.png */; };
+		F27DA1531D8D0877008AD6DC /* check-box-active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA14D1D8D0877008AD6DC /* check-box-active@2x.png */; };
+		F27DA1541D8D0877008AD6DC /* check-box-active@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA14E1D8D0877008AD6DC /* check-box-active@3x.png */; };
+		F27DA1551D8D0877008AD6DC /* check-box-inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA14F1D8D0877008AD6DC /* check-box-inactive.png */; };
+		F27DA1561D8D0877008AD6DC /* check-box-inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA1501D8D0877008AD6DC /* check-box-inactive@2x.png */; };
+		F27DA1571D8D0877008AD6DC /* check-box-inactive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27DA1511D8D0877008AD6DC /* check-box-inactive@3x.png */; };
 		F2D6A94D1D7577660012985F /* PreviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D6A94C1D7577660012985F /* PreviewsViewController.swift */; };
 		F2D6A94E1D75788A0012985F /* Previews.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2D6A94A1D75773A0012985F /* Previews.storyboard */; };
 		F9A148C83D48857A735E90C5C63F2810 /* arrow_down@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D9715823C86FB23268BC440A238DF7E /* arrow_down@3x.png */; };
@@ -157,7 +165,6 @@
 		4F8E6C608D8BF3B71D717A51D98FD8B0 /* BSImagePicker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BSImagePicker-prefix.pch"; sourceTree = "<group>"; };
 		4FA0B053CFEEFAF4307FEC563A29E513 /* BSGridCollectionViewLayout-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BSGridCollectionViewLayout-prefix.pch"; sourceTree = "<group>"; };
 		4FB978B9FEC0CABEE194AA66ABA44F42 /* UIImageViewModeScaleAspect-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIImageViewModeScaleAspect-umbrella.h"; sourceTree = "<group>"; };
-		54F7BC8A876B901C8A4B2EE417AE1E32 /* ZoomAnimator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ZoomAnimator.swift; sourceTree = "<group>"; };
 		552CA646E7FC05109D31392E06BAF3B2 /* BSImagePicker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BSImagePicker-dummy.m"; sourceTree = "<group>"; };
 		58762805239E3FE5C42C6777A18ECC9F /* UIImageViewModeScaleAspect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIImageViewModeScaleAspect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		62A07BC861854941FF03B1DB7CC045B3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -207,6 +214,15 @@
 		E86D154B5A30BD01DD888A3650CBD024 /* Pods-BSImagePicker_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BSImagePicker_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		E9DDDEDEA35726B9B1CF8C63CC046257 /* BSGridCollectionViewLayout-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BSGridCollectionViewLayout-umbrella.h"; sourceTree = "<group>"; };
 		F00E9B755E517A92770B1ECCD8246246 /* Pods-BSImagePicker_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BSImagePicker_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		F27DA1461D8D040E008AD6DC /* photo-full-screen-close-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-full-screen-close-button.png"; sourceTree = "<group>"; };
+		F27DA1471D8D040E008AD6DC /* photo-full-screen-close-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-full-screen-close-button@2x.png"; sourceTree = "<group>"; };
+		F27DA1481D8D040E008AD6DC /* photo-full-screen-close-button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-full-screen-close-button@3x.png"; sourceTree = "<group>"; };
+		F27DA14C1D8D0877008AD6DC /* check-box-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-box-active.png"; sourceTree = "<group>"; };
+		F27DA14D1D8D0877008AD6DC /* check-box-active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-box-active@2x.png"; sourceTree = "<group>"; };
+		F27DA14E1D8D0877008AD6DC /* check-box-active@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-box-active@3x.png"; sourceTree = "<group>"; };
+		F27DA14F1D8D0877008AD6DC /* check-box-inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-box-inactive.png"; sourceTree = "<group>"; };
+		F27DA1501D8D0877008AD6DC /* check-box-inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-box-inactive@2x.png"; sourceTree = "<group>"; };
+		F27DA1511D8D0877008AD6DC /* check-box-inactive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-box-inactive@3x.png"; sourceTree = "<group>"; };
 		F2D6A94A1D75773A0012985F /* Previews.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Previews.storyboard; sourceTree = "<group>"; };
 		F2D6A94C1D7577660012985F /* PreviewsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewsViewController.swift; sourceTree = "<group>"; };
 		F39F72C0B83100FA835280EC7C0D7C52 /* arrow_down@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "arrow_down@2x.png"; sourceTree = "<group>"; };
@@ -321,7 +337,6 @@
 				6C11E3CD700C309DD32E63815E62D067 /* PhotosViewController.swift */,
 				302F8CD40982F3A47D13FFA0E8DE232A /* PreviewViewController.swift */,
 				F2D6A94C1D7577660012985F /* PreviewsViewController.swift */,
-				54F7BC8A876B901C8A4B2EE417AE1E32 /* ZoomAnimator.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -474,6 +489,15 @@
 		CC245D48D92A293CD5A5A55E4AC5F043 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				F27DA1461D8D040E008AD6DC /* photo-full-screen-close-button.png */,
+				F27DA1471D8D040E008AD6DC /* photo-full-screen-close-button@2x.png */,
+				F27DA1481D8D040E008AD6DC /* photo-full-screen-close-button@3x.png */,
+				F27DA14C1D8D0877008AD6DC /* check-box-active.png */,
+				F27DA14D1D8D0877008AD6DC /* check-box-active@2x.png */,
+				F27DA14E1D8D0877008AD6DC /* check-box-active@3x.png */,
+				F27DA14F1D8D0877008AD6DC /* check-box-inactive.png */,
+				F27DA1501D8D0877008AD6DC /* check-box-inactive@2x.png */,
+				F27DA1511D8D0877008AD6DC /* check-box-inactive@3x.png */,
 				ACE7CD88974D93F4DDE6117FAB5FFC51 /* add_photo.png */,
 				A601F3325C436129BFE859A173334DE2 /* add_photo@2x.png */,
 				D32E5B3AEFFA2B098F3125AB67C473BC /* add_photo@3x.png */,
@@ -751,10 +775,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F27DA1521D8D0877008AD6DC /* check-box-active.png in Resources */,
+				F27DA1531D8D0877008AD6DC /* check-box-active@2x.png in Resources */,
 				EB841560A42ED462A6E4F0F9BC21DAFF /* add_photo.png in Resources */,
 				F2D6A94E1D75788A0012985F /* Previews.storyboard in Resources */,
 				E6CB97E4D03638811A9B63F85DF18401 /* add_photo@2x.png in Resources */,
+				F27DA1551D8D0877008AD6DC /* check-box-inactive.png in Resources */,
 				345708DD5F220E4BB3C286EFDD270509 /* add_photo@3x.png in Resources */,
+				F27DA1571D8D0877008AD6DC /* check-box-inactive@3x.png in Resources */,
+				F27DA1491D8D040E008AD6DC /* photo-full-screen-close-button.png in Resources */,
 				7CD9C488F07273664772B1AA302D9D85 /* Albums.storyboard in Resources */,
 				6BF3FD7E196F67E875113F7A02C8638D /* AlbumTitleView.xib in Resources */,
 				729478D168ADD1B98CC3490A8BA646EF /* arrow_down@1x.png in Resources */,
@@ -762,6 +791,10 @@
 				F9A148C83D48857A735E90C5C63F2810 /* arrow_down@3x.png in Resources */,
 				A727C60BC069E259ABB379DAB8A91FE2 /* CameraCell.xib in Resources */,
 				21815944ABB24000045394D15631C87F /* PhotoCell.xib in Resources */,
+				F27DA1561D8D0877008AD6DC /* check-box-inactive@2x.png in Resources */,
+				F27DA14B1D8D040E008AD6DC /* photo-full-screen-close-button@3x.png in Resources */,
+				F27DA1541D8D0877008AD6DC /* check-box-active@3x.png in Resources */,
+				F27DA14A1D8D040E008AD6DC /* photo-full-screen-close-button@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,7 +840,6 @@
 				D130664E5AB3AE440900439850877B31 /* Settings.swift in Sources */,
 				85799C535548092D4DCE1D3137FD483B /* UIButton+NoAnimation.swift in Sources */,
 				CF5FAD1C2EE24FB2C50CC91A8DBE37CF /* UIViewController+BSImagePicker.swift in Sources */,
-				DF4D0829FCDAB6E62444804C8ED90421 /* ZoomAnimator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
